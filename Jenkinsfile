@@ -20,6 +20,12 @@ pipeline{
         stage('build'){
             steps{
                 sh 'ls -ltr'
+                sh 'zip -r catalogue.zip ./* --exclude=.git --exclude=.zip'
+            }
+        }
+        stage('Deploy'){
+            steps{
+                echo "Deployment"
             }
         }
     }
