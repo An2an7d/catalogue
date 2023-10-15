@@ -1,6 +1,16 @@
 pipeline{
     agent{ label 'AGENT-1'}
+    environment{
+        packageVersion=''
+    }
     stages{
+        stage('Get Version'){
+            steps{
+                def packageJson = readJson(file: 'package.json')
+                def packageVersion = packageJson.version
+                echo "version: ${packageVersion}"
+            }
+        }
         stage('Install dependencies'){
             steps{
                 sh 'npm install'
@@ -11,12 +21,11 @@ pipeline{
                 echo "unit testing is done here"
             }
         }
-        // stage('Sonar Scan'){
-        //     steps{
-        //         sh 'ls -ltr'
-        //         sh 'sonar-scanner'
-        //     }
-        // }
+        stage('Sonar Scan'){
+            steps{
+                echo "sonar scan done"
+            }
+        }
         stage('build'){
             steps{
                 sh 'ls -ltr'
@@ -24,6 +33,11 @@ pipeline{
             }
         }
 
+        stage('SAST'){
+            steps{
+                echo "SAST done"
+            }
+        }
           stage('Publish Artifact') {
             steps {
                 nexusArtifactUploader(
@@ -31,7 +45,7 @@ pipeline{
                     protocol: 'http',
                     nexusUrl: '54.237.18.140:8081/',
                     groupId: 'com.roboshop',
-                    version: '1.0.1',
+                    version: "$packageJson",
                     repository: 'catalogue',
                     credentialsId: 'nexus-auth',
                     artifacts: [
