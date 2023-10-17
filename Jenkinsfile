@@ -6,9 +6,11 @@ pipeline{
     stages{
         stage('Get Version'){
             steps{
-                def packageJson = readJson(file: 'package.json')
-                def packageVersion = packageJson.version
-                echo "version: ${packageVersion}"
+                script{
+                    def packageJson = readJSON(file: 'package.json')
+                    packageVersion = packageJson.version
+                    echo "version: ${packageVersion}"
+                }
             }
         }
         stage('Install dependencies'){
@@ -43,9 +45,9 @@ pipeline{
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: '54.237.18.140:8081/',
+                    nexusUrl: '52.3.242.80:8081/',
                     groupId: 'com.roboshop',
-                    version: "$packageJson",
+                    version: "$packageVersion",
                     repository: 'catalogue',
                     credentialsId: 'nexus-auth',
                     artifacts: [
