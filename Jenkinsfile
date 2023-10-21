@@ -40,25 +40,25 @@ pipeline{
                 echo "SAST done"
             }
         }
-        //   stage('Publish Artifact') {
-        //     steps {
-        //         nexusArtifactUploader(
-        //             nexusVersion: 'nexus3',
-        //             protocol: 'http',
-        //             nexusUrl: '54.146.66.219:8081/',
-        //             groupId: 'com.roboshop',
-        //             version: "$packageVersion",
-        //             repository: 'catalogue',
-        //             credentialsId: 'nexus-auth',
-        //             artifacts: [
-        //                 [artifactId: 'catalogue',
-        //                 classifier: '',
-        //                 file: 'catalogue.zip',
-        //                 type: 'zip']
-        //             ]
-        //         )
-        //     }
-        // }
+          stage('Publish Artifact') {
+            steps {
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: '54.146.66.219:8081/',
+                    groupId: 'com.roboshop',
+                    version: "$packageVersion",
+                    repository: 'catalogue',
+                    credentialsId: 'nexus-auth',
+                    artifacts: [
+                        [artifactId: 'catalogue',
+                        classifier: '',
+                        file: 'catalogue.zip',
+                        type: 'zip']
+                    ]
+                )
+            }
+        }
         stage('Deploy'){
             steps{
                 script{
