@@ -45,7 +45,7 @@ pipeline{
         //         nexusArtifactUploader(
         //             nexusVersion: 'nexus3',
         //             protocol: 'http',
-        //             nexusUrl: '52.3.242.80:8081/',
+        //             nexusUrl: '54.146.66.219:8081/',
         //             groupId: 'com.roboshop',
         //             version: "$packageVersion",
         //             repository: 'catalogue',
@@ -74,7 +74,7 @@ pipeline{
     post{
         always{
             echo 'cleaning up workspace'
-            deleteDir()
+            // deleteDir()
         }
     }
     
